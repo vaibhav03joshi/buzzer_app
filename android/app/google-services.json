@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "803726674093",
+    "project_id": "buzzerapp-abd6d",
+    "storage_bucket": "buzzerapp-abd6d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:803726674093:android:a26dc10510155e7efa5e24",
+        "android_client_info": {
+          "package_name": "com.codemire.buzzer.buzzer_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOiwab-f4DmKm1jZ4dYtTlUzs04vPGD_0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,11 +1,16 @@
-import 'package:buzzer_app/Screens/HostScreen.dart';
 import 'package:buzzer_app/Screens/JoinRoomScreen.dart';
 import 'package:buzzer_app/Screens/WaitingRoom.dart';
-import 'package:buzzer_app/widget/UserWaitingCard.dart';
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
+
+  String GenerateRoomCode() {
+    Random random = Random();
+    int sixDigitNumber = random.nextInt(900000) + 100000;
+    return sixDigitNumber.toString();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,10 +45,12 @@ class HomeScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(20.0),
                     ),
                     onPressed: () {
+                      String roomCodeGenerated = GenerateRoomCode();
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (ctx) => const WaitingScreen(
+                          builder: (ctx) => WaitingScreen(
                             showStartButton: true,
+                            roomCode: roomCodeGenerated,
                           ),
                         ),
                       );
