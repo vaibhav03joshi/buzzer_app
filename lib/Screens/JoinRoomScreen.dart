@@ -1,12 +1,12 @@
 import 'package:buzzer_app/Screens/WaitingRoom.dart';
 import 'package:flutter/material.dart';
-
 import '../Data/Functions.dart';
 
 class JoinRoomScreen extends StatelessWidget {
   JoinRoomScreen({super.key});
 
   String roomCode = '';
+  String userName = '';
 
   @override
   Widget build(BuildContext context) {
@@ -26,17 +26,22 @@ class JoinRoomScreen extends StatelessWidget {
               height: 50,
               width: 200,
               child: TextField(
+                cursorColor: Colors.white,
                 onChanged: (value) {
-                  roomCode = value;
+                  userName = value;
                 },
-                keyboardType: TextInputType.number,
+                keyboardType: TextInputType.name,
                 textAlign: TextAlign.center,
-                maxLength: 6,
+                maxLength: 15,
                 decoration: const InputDecoration(
                   contentPadding: EdgeInsets.zero,
                   border: InputBorder.none,
-                  hintText: 'Enter Room Code',
+                  hintText: 'Username',
                   counterText: '',
+                  hintStyle: TextStyle(
+                    fontSize: 15,
+                    color: Colors.white60,
+                  ),
                 ),
                 style: const TextStyle(
                   fontSize: 20,
@@ -55,6 +60,7 @@ class JoinRoomScreen extends StatelessWidget {
               height: 50,
               width: 200,
               child: TextField(
+                cursorColor: Colors.white,
                 onChanged: (value) {
                   roomCode = value;
                 },
@@ -64,7 +70,11 @@ class JoinRoomScreen extends StatelessWidget {
                 decoration: const InputDecoration(
                   contentPadding: EdgeInsets.zero,
                   border: InputBorder.none,
-                  hintText: 'Enter Room Code',
+                  hintText: 'Room Code',
+                  hintStyle: TextStyle(
+                    fontSize: 15,
+                    color: Colors.white60,
+                  ),
                   counterText: '',
                 ),
                 style: const TextStyle(
@@ -82,13 +92,14 @@ class JoinRoomScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20.0),
               ),
               onPressed: () async {
-                bool canJoinRoomCode = await canJoinRoom(roomCode);
+                bool canJoinRoomCode = await joinRoom(roomCode, userName);
                 if (canJoinRoomCode) {
-                  Navigator.of(context).push(
+                  Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
                       builder: (ctx) => WaitingScreen(
                         showStartButton: false,
                         roomCode: roomCode,
+                        username: userName,
                       ),
                     ),
                   );

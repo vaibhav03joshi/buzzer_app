@@ -1,24 +1,81 @@
+import 'package:buzzer_app/Screens/ClientPage.dart';
 import 'package:buzzer_app/Screens/HostScreen.dart';
 import 'package:buzzer_app/widget/UserWaitingCard.dart';
 import 'package:flutter/material.dart';
 import '../Data/Functions.dart';
 
 class WaitingScreen extends StatefulWidget {
-  const WaitingScreen(
-      {required this.showStartButton, required this.roomCode, super.key});
+  WaitingScreen(
+      {required this.showStartButton,
+      required this.roomCode,
+      this.username,
+      super.key});
 
   final bool showStartButton;
   final String roomCode;
+  final String? username;
 
   @override
   State<WaitingScreen> createState() => _WaitingScreenState();
 }
 
 class _WaitingScreenState extends State<WaitingScreen> {
+  List<String> waitingUsers = [];
+
+  void WaitingUserListCall() async {
+    List<String> list = await returnWaitingUsers(widget.roomCode);
+    setState(() {
+      waitingUsers = list;
+    });
+  }
+
+  void pushClientScreen() {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+          builder: (ctx) => ClientPage(
+                username: widget.username ?? "",
+                roomCode: widget.roomCode,
+              )),
+    );
+  }
+
+  var sub1, sub2, sub3;
+
   @override
   void initState() {
-    createRoom(widget.roomCode);
+    waitingRoomFunction(widget.roomCode, true, false);
     super.initState();
+    sub1 = databaseReference
+        .child("/Room/${widget.roomCode}/Users")
+        .onChildAdded
+        .listen((event) {
+      WaitingUserListCall();
+    });
+    sub2 = databaseReference
+        .child("/Room/${widget.roomCode}/Users")
+        .onChildRemoved
+        .listen((event) {
+      WaitingUserListCall();
+    });
+    if (widget.username != null) {
+      sub3 = databaseReference
+          .child("/Room/${widget.roomCode}/startGame")
+          .onChildChanged
+          .listen((event) {
+        pushClientScreen();
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    if (widget.username != null) {
+      removeUsersData("", widget.username.toString());
+    }
+    sub1?.cancle;
+    sub2?.cancle;
+    sub3?.cancel;
+    super.dispose();
   }
 
   @override
@@ -29,6 +86,14 @@ class _WaitingScreenState extends State<WaitingScreen> {
       ),
       body: Stack(
         children: [
+          waitingUsers.isEmpty
+              ? const Center(
+                  child: Text("Looks like no one here"),
+                )
+              : ListView.builder(
+                  itemCount: waitingUsers.length,
+                  itemBuilder: (ctx, index) =>
+                      UserCard(userName: waitingUsers[index])),
           widget.showStartButton
               ? Align(
                   alignment: Alignment.bottomCenter,
@@ -42,11 +107,16 @@ class _WaitingScreenState extends State<WaitingScreen> {
                     ),
                     child: IconButton(
                       onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(builder: (ctx) => HostScreen()),
+                        waitingRoomFunction(widget.roomCode, false, true);
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (ctx) => HostScreen(
+                              roomCode: widget.roomCode,
+                            ),
+                          ),
                         );
                       },
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.play_arrow_rounded,
                         color: Colors.white,
                       ),
@@ -54,13 +124,6 @@ class _WaitingScreenState extends State<WaitingScreen> {
                   ),
                 )
               : Container(),
-          Column(
-            children: [
-              UserCard(userName: 'Anshu'),
-              UserCard(userName: 'Keshu'),
-              UserCard(userName: 'Shanu'),
-            ],
-          ),
         ],
       ),
     );

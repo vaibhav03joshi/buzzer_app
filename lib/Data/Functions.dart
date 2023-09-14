@@ -1,25 +1,86 @@
 import 'dart:convert';
+
 import 'package:firebase_database/firebase_database.dart';
+
+import 'UserData.dart';
 
 final databaseReference = FirebaseDatabase.instance.ref();
 
-void createRoom(String roomCode) {
-  databaseReference.child("Room").update(
+void waitingRoomFunction(String roomCode, bool canJoin, bool startGame) {
+  databaseReference.child("Room/$roomCode").update(
     {
-      "$roomCode": {
-        "canJoin": true,
+      "canJoin": canJoin,
+      "startGame": {
+        "canAnswer": startGame,
       },
     },
   );
 }
 
-Future<bool> canJoinRoom(String roomCode) async {
+Future<bool> joinRoom(String roomCode, String username) async {
   final snapshot = await databaseReference.child('/Room/$roomCode').get();
   if (snapshot.exists) {
-    return true;
-  } else {
-    return false;
+    Map<String, dynamic> data =
+        jsonDecode(jsonEncode(snapshot.value)) as Map<String, dynamic>;
+    bool canJoin = data["canJoin"];
+    if (canJoin) {
+      int currentUsers = data["currentUsers"] ?? 0;
+      int users = currentUsers + 1;
+      databaseReference.child('/Room/$roomCode').update(
+        {
+          "currentUsers": users,
+        },
+      );
+      databaseReference.child("/Room/$roomCode/Users").update(
+        {
+          "$users": username,
+        },
+      );
+    }
+    return canJoin;
   }
+  return false;
+}
+
+Future<List<String>> returnWaitingUsers(String roomCode) async {
+  List<String> waitingUsers = [];
+  final snapshot = await databaseReference.child("/Room/$roomCode/Users").get();
+  if (snapshot.exists) {
+    List<dynamic> list = jsonDecode(jsonEncode(snapshot.value));
+    list = list.where((element) => element != null).toList();
+    waitingUsers = list.cast<String>();
+  }
+  return waitingUsers;
+}
+
+void removeUsersData(String path, String userData) async {
+  Query query = databaseReference.child(path).orderByValue().equalTo(userData);
+  query.once().then((snapshot) {
+    if (snapshot.snapshot.value != null) {}
+  });
+}
+
+void passBuzzerData(String roomData, String username, String dateTime) {
+  databaseReference.child("/Room/$roomData/startGame/Results").set({
+    username: dateTime,
+  });
+}
+
+Future<List<Results>> returnResultUsers(String roomCode) async {
+  List<Results> resultData = [];
+  final snapshot =
+      await databaseReference.child("/Room/$roomCode/startGame/Results").get();
+  if (snapshot.exists) {
+    Map<String, dynamic> data =
+        jsonDecode(jsonEncode(snapshot.value)) as Map<String, dynamic>;
+    data.forEach((key, value) {
+      String dateTimeData = value;
+      DateTime dateTime = DateTime.parse(dateTimeData);
+      Results results = Results(key, dateTime);
+      resultData.add(results);
+    });
+  }
+  return resultData;
 }
 
 void writeData() {
@@ -28,7 +89,7 @@ void writeData() {
       "username": "Anshu",
       "Time": {
         "seconds": 2,
-        "miliSeconds": 42,
+        "miniSeconds": 42,
       },
     },
   );
@@ -44,4 +105,12 @@ void readData() async {
   } else {
     print('No data available.');
   }
+}
+
+void removeData(String path) {
+  databaseReference.child(path).remove();
+}
+
+void ListenToData() {
+  databaseReference.onChildChanged.listen((event) {});
 }
