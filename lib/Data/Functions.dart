@@ -17,15 +17,19 @@ void waitingRoomFunction(String roomCode, bool canJoin, bool startGame) {
   );
 }
 
-Future<bool> joinRoom(String roomCode, String username) async {
+Future<JoinRoom> joinRoom(String roomCode, String username) async {
+  JoinRoom joinRoom = JoinRoom(-1, false);
   final snapshot = await databaseReference.child('/Room/$roomCode').get();
   if (snapshot.exists) {
+    joinRoom.userIndex = 0;
     Map<String, dynamic> data =
         jsonDecode(jsonEncode(snapshot.value)) as Map<String, dynamic>;
     bool canJoin = data["canJoin"];
     if (canJoin) {
       int currentUsers = data["currentUsers"] ?? 0;
       int users = currentUsers + 1;
+      joinRoom.canJoin = canJoin;
+      joinRoom.userIndex = users;
       databaseReference.child('/Room/$roomCode').update(
         {
           "currentUsers": users,
@@ -37,9 +41,9 @@ Future<bool> joinRoom(String roomCode, String username) async {
         },
       );
     }
-    return canJoin;
+    return joinRoom;
   }
-  return false;
+  return joinRoom;
 }
 
 Future<List<String>> returnWaitingUsers(String roomCode) async {
@@ -53,15 +57,12 @@ Future<List<String>> returnWaitingUsers(String roomCode) async {
   return waitingUsers;
 }
 
-void removeUsersData(String path, String userData) async {
-  Query query = databaseReference.child(path).orderByValue().equalTo(userData);
-  query.once().then((snapshot) {
-    if (snapshot.snapshot.value != null) {}
-  });
+void removeUsersData(String path) async {
+  databaseReference.child(path).remove();
 }
 
 void passBuzzerData(String roomData, String username, String dateTime) {
-  databaseReference.child("/Room/$roomData/startGame/Results").set({
+  databaseReference.child("/Room/$roomData/startGame/Results").update({
     username: dateTime,
   });
 }
@@ -96,7 +97,8 @@ void writeData() {
 }
 
 void readData() async {
-  final snapshot = await databaseReference.child('/RoomCode').get();
+  final snapshot = await databaseReference.child('/Room/456342').get();
+  print(snapshot.exists);
   if (snapshot.exists) {
     Map<String, dynamic> data =
         jsonDecode(jsonEncode(snapshot.value)) as Map<String, dynamic>;
@@ -109,8 +111,4 @@ void readData() async {
 
 void removeData(String path) {
   databaseReference.child(path).remove();
-}
-
-void ListenToData() {
-  databaseReference.onChildChanged.listen((event) {});
 }

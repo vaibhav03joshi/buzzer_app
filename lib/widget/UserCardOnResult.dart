@@ -51,7 +51,7 @@ class UserCardOnResult extends StatelessWidget {
                   right: 15.0,
                 ),
                 child: Text(
-                  '${datetime.second}:${datetime.microsecond}',
+                  '${datetime.minute}:${datetime.second}:${datetime.microsecond}',
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w400,

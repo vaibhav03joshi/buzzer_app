@@ -11,7 +11,7 @@ class HostScreen extends StatefulWidget {
   State<HostScreen> createState() => _HostScreenState();
 }
 
-class _HostScreenState extends State<HostScreen> {
+class _HostScreenState extends State<HostScreen> with WidgetsBindingObserver {
   List<Results> resultsList = [];
 
   var sub1;
@@ -24,6 +24,21 @@ class _HostScreenState extends State<HostScreen> {
       resultsList = tempResultList;
       print(resultsList);
     });
+  }
+
+  void deleteDataFromRoom() {
+    removeUsersData("/Room/${widget.roomCode}");
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.inactive) {
+      deleteDataFromRoom();
+    }
+    if (state == AppLifecycleState.resumed) {
+      Navigator.pop(context);
+    }
   }
 
   @override

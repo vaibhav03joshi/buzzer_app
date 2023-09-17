@@ -1,6 +1,7 @@
 import 'package:buzzer_app/Screens/WaitingRoom.dart';
 import 'package:flutter/material.dart';
 import '../Data/Functions.dart';
+import '../Data/UserData.dart';
 
 class JoinRoomScreen extends StatelessWidget {
   JoinRoomScreen({super.key});
@@ -92,17 +93,22 @@ class JoinRoomScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20.0),
               ),
               onPressed: () async {
-                bool canJoinRoomCode = await joinRoom(roomCode, userName);
-                if (canJoinRoomCode) {
+                JoinRoom joinroom = await joinRoom(roomCode, userName);
+                if (joinroom.canJoin) {
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
                       builder: (ctx) => WaitingScreen(
                         showStartButton: false,
                         roomCode: roomCode,
                         username: userName,
+                        userIndex: joinroom.userIndex.toString(),
                       ),
                     ),
                   );
+                } else {
+                  String warningMessage = joinroom.userIndex == -1
+                      ? "Room Does not exist"
+                      : "Room is already started";
                 }
               },
               child: const Row(

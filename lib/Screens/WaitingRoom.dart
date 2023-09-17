@@ -9,17 +9,21 @@ class WaitingScreen extends StatefulWidget {
       {required this.showStartButton,
       required this.roomCode,
       this.username,
+      this.userIndex,
       super.key});
 
   final bool showStartButton;
   final String roomCode;
   final String? username;
+  final String? userIndex;
 
   @override
   State<WaitingScreen> createState() => _WaitingScreenState();
 }
 
-class _WaitingScreenState extends State<WaitingScreen> {
+class _WaitingScreenState extends State<WaitingScreen>
+    with WidgetsBindingObserver {
+  bool canDelete = true;
   List<String> waitingUsers = [];
 
   void WaitingUserListCall() async {
@@ -27,6 +31,16 @@ class _WaitingScreenState extends State<WaitingScreen> {
     setState(() {
       waitingUsers = list;
     });
+  }
+
+  void deleteDataFromRoom() {
+    if (canDelete) {
+      if (widget.userIndex != null) {
+        removeUsersData("/Room/${widget.roomCode}/Users/${widget.userIndex}");
+      } else {
+        removeUsersData("/Room/${widget.roomCode}");
+      }
+    }
   }
 
   void pushClientScreen() {
@@ -42,7 +56,19 @@ class _WaitingScreenState extends State<WaitingScreen> {
   var sub1, sub2, sub3;
 
   @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.inactive) {
+      deleteDataFromRoom();
+    }
+    if (state == AppLifecycleState.resumed) {
+      Navigator.pop(context);
+    }
+  }
+
+  @override
   void initState() {
+    WidgetsBinding.instance.addObserver(this);
     waitingRoomFunction(widget.roomCode, true, false);
     super.initState();
     sub1 = databaseReference
@@ -69,9 +95,8 @@ class _WaitingScreenState extends State<WaitingScreen> {
 
   @override
   void dispose() {
-    if (widget.username != null) {
-      removeUsersData("", widget.username.toString());
-    }
+    WidgetsBinding.instance.removeObserver(this);
+    deleteDataFromRoom();
     sub1?.cancle;
     sub2?.cancle;
     sub3?.cancel;
@@ -107,6 +132,7 @@ class _WaitingScreenState extends State<WaitingScreen> {
                     ),
                     child: IconButton(
                       onPressed: () {
+                        canDelete = false;
                         waitingRoomFunction(widget.roomCode, false, true);
                         Navigator.of(context).pushReplacement(
                           MaterialPageRoute(
