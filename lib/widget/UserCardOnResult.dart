@@ -28,11 +28,11 @@ class UserCardOnResult extends StatelessWidget {
                   width: 50.0,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30.0),
-                    color: Colors.black,
+                    color: Color(0xff50586C),
                   ),
                   child: const Icon(
                     Icons.person,
-                    color: Colors.white,
+                    color: Color(0xffDCE2F0),
                   ),
                 ),
                 Text(
@@ -53,6 +53,7 @@ class UserCardOnResult extends StatelessWidget {
                 child: Text(
                   '${datetime.minute}:${datetime.second}:${datetime.microsecond}',
                   style: const TextStyle(
+                    color: Color(0xff50586C),
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
                   ),

@@ -8,12 +8,15 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(MaterialApp(
-    theme: ThemeData(
-      appBarTheme: const AppBarTheme(
-        color: Colors.black,
+  runApp(
+    MaterialApp(
+      theme: ThemeData(
+        scaffoldBackgroundColor: const Color(0xffDCE2F0),
+        appBarTheme: const AppBarTheme(
+          color: Color(0xff50586C),
+        ),
       ),
+      home: const HomeScreen(),
     ),
-    home: const HomeScreen(),
-  ));
+  );
 }

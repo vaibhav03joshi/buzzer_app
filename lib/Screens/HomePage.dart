@@ -27,7 +27,7 @@ class HomeScreen extends StatelessWidget {
               children: [
                 Container(
                   decoration: BoxDecoration(
-                    color: Colors.black,
+                    color: const Color(0xff50586C),
                     borderRadius: BorderRadius.circular(100.0),
                   ),
                   height: 200,
@@ -58,9 +58,13 @@ class HomeScreen extends StatelessWidget {
                     child: const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.add),
+                        Icon(
+                          Icons.add,
+                          color: Color(0xff50586C),
+                        ),
                         Text(
                           'Create',
+                          style: TextStyle(color: Color(0xff50586C)),
                         ),
                       ],
                     ),
@@ -83,9 +87,13 @@ class HomeScreen extends StatelessWidget {
                     child: const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.person_add_alt_1),
+                        Icon(
+                          Icons.person_add_alt_1,
+                          color: Color(0xff50586C),
+                        ),
                         Text(
                           'Join',
+                          style: TextStyle(color: Color(0xff50586C)),
                         ),
                       ],
                     ),

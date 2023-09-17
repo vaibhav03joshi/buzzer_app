@@ -21,13 +21,13 @@ class JoinRoomScreen extends StatelessWidget {
           children: [
             Container(
               decoration: BoxDecoration(
-                color: Colors.black,
+                color: Color(0xff50586C),
                 borderRadius: BorderRadius.circular(30.0),
               ),
               height: 50,
               width: 200,
               child: TextField(
-                cursorColor: Colors.white,
+                cursorColor: Color(0xffDCE2F0),
                 onChanged: (value) {
                   userName = value;
                 },
@@ -41,12 +41,12 @@ class JoinRoomScreen extends StatelessWidget {
                   counterText: '',
                   hintStyle: TextStyle(
                     fontSize: 15,
-                    color: Colors.white60,
+                    color: Color(0xd0DCE2F0),
                   ),
                 ),
                 style: const TextStyle(
                   fontSize: 20,
-                  color: Colors.white,
+                  color: Color(0xffDCE2F0),
                 ),
               ),
             ),
@@ -55,13 +55,13 @@ class JoinRoomScreen extends StatelessWidget {
             ),
             Container(
               decoration: BoxDecoration(
-                color: Colors.black,
+                color: Color(0xff50586C),
                 borderRadius: BorderRadius.circular(30.0),
               ),
               height: 50,
               width: 200,
               child: TextField(
-                cursorColor: Colors.white,
+                cursorColor: Color(0xffDCE2F0),
                 onChanged: (value) {
                   roomCode = value;
                 },
@@ -74,13 +74,13 @@ class JoinRoomScreen extends StatelessWidget {
                   hintText: 'Room Code',
                   hintStyle: TextStyle(
                     fontSize: 15,
-                    color: Colors.white60,
+                    color: Color(0xd0dce2f0),
                   ),
                   counterText: '',
                 ),
                 style: const TextStyle(
                   fontSize: 20,
-                  color: Colors.white,
+                  color: Color(0xffDCE2F0),
                 ),
               ),
             ),
@@ -114,9 +114,13 @@ class JoinRoomScreen extends StatelessWidget {
               child: const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.person_add_alt_1),
+                  Icon(
+                    Icons.person_add_alt_1,
+                    color: Color(0xff50586C),
+                  ),
                   Text(
                     'Join',
+                    style: TextStyle(color: Color(0xff50586C)),
                   ),
                 ],
               ),

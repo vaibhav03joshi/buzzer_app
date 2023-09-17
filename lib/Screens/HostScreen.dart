@@ -60,6 +60,7 @@ class _HostScreenState extends State<HostScreen> with WidgetsBindingObserver {
 
   @override
   void dispose() {
+    deleteDataFromRoom();
     sub1?.cancel;
     sub2?.cancel;
     super.dispose();
@@ -75,7 +76,10 @@ class _HostScreenState extends State<HostScreen> with WidgetsBindingObserver {
         children: [
           resultsList.isEmpty
               ? const Center(
-                  child: Text("Looks like no one here"),
+                  child: Text(
+                    "Looks like no one here",
+                    style: TextStyle(color: Color(0xff50586C)),
+                  ),
                 )
               : ListView.builder(
                   itemCount: resultsList.length,
@@ -91,14 +95,14 @@ class _HostScreenState extends State<HostScreen> with WidgetsBindingObserver {
               height: 70.0,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(100.0),
-                color: Colors.black,
+                color: Color(0xff50586C),
               ),
               child: IconButton(
                 onPressed: () {
                   removeData("/Room/${widget.roomCode}/startGame/Results");
                 },
                 icon: const Icon(
-                  Icons.play_arrow_rounded,
+                  Icons.restart_alt_rounded,
                   color: Colors.white,
                 ),
               ),

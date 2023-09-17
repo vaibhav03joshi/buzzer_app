@@ -113,7 +113,10 @@ class _WaitingScreenState extends State<WaitingScreen>
         children: [
           waitingUsers.isEmpty
               ? const Center(
-                  child: Text("Looks like no one here"),
+                  child: Text(
+                    "Looks like no one here",
+                    style: TextStyle(color: Color(0xff50586C)),
+                  ),
                 )
               : ListView.builder(
                   itemCount: waitingUsers.length,
@@ -128,7 +131,7 @@ class _WaitingScreenState extends State<WaitingScreen>
                     height: 70.0,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(100.0),
-                      color: Colors.black,
+                      color: Color(0xff50586C),
                     ),
                     child: IconButton(
                       onPressed: () {
@@ -144,7 +147,7 @@ class _WaitingScreenState extends State<WaitingScreen>
                       },
                       icon: const Icon(
                         Icons.play_arrow_rounded,
-                        color: Colors.white,
+                        color: Color(0xffDCE2F0),
                       ),
                     ),
                   ),

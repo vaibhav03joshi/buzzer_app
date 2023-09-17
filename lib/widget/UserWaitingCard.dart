@@ -24,16 +24,17 @@ class UserCard extends StatelessWidget {
               width: 50.0,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(30.0),
-                color: Colors.black,
+                color: Color(0xff50586C),
               ),
               child: const Icon(
                 Icons.person,
-                color: Colors.white,
+                color: Color(0xffDCE2F0),
               ),
             ),
             Text(
               userName,
               style: TextStyle(
+                color: Color(0xff50586C),
                 fontSize: 20.0,
                 fontWeight: FontWeight.w400,
               ),
