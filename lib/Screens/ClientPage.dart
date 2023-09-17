@@ -1,6 +1,8 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import '../Data/Functions.dart';
+import '../Data/UserData.dart';
+import '../widget/UserCardOnResult.dart';
 
 class ClientPage extends StatefulWidget {
   const ClientPage({
@@ -19,6 +21,16 @@ class ClientPage extends StatefulWidget {
 class _ClientPageState extends State<ClientPage> {
   final player = AudioPlayer();
   bool isBuzzerActive = true;
+  List<Results> resultsList = [];
+  var sub1, sub2;
+
+  void getResultData() async {
+    List<Results> tempResultList = [];
+    tempResultList = await returnResultUsers(widget.roomCode);
+    setState(() {
+      resultsList = tempResultList;
+    });
+  }
 
   @override
   void initState() {
@@ -31,6 +43,18 @@ class _ClientPageState extends State<ClientPage> {
         isBuzzerActive = true;
       });
     });
+    sub1 = databaseReference
+        .child("/Room/${widget.roomCode}/startGame/Results")
+        .onChildAdded
+        .listen((event) {
+      getResultData();
+    });
+    sub2 = databaseReference
+        .child("/Room/${widget.roomCode}/startGame/Results")
+        .onChildRemoved
+        .listen((event) {
+      getResultData();
+    });
   }
 
   @override
@@ -42,36 +66,56 @@ class _ClientPageState extends State<ClientPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Container(
-          height: 200,
-          width: 200,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(100),
-            child: MaterialButton(
-              color: Color(0xff50586C),
-              onPressed: isBuzzerActive
-                  ? () {
-                      player.play(
-                        AssetSource("buzzer.mp3"),
-                      );
-                      setState(() {
-                        isBuzzerActive = false;
-                      });
-                      passBuzzerData(widget.roomCode, widget.username,
-                          DateTime.now().toString());
-                    }
-                  : () {},
-              child: const Text(
-                "BUZZER",
-                style: TextStyle(
-                  fontSize: 15,
-                  color: Color(0xffD7D7D7),
+      body: Stack(
+        children: [
+          Container(
+            height: 50.0,
+            width: double.infinity,
+            color: const Color(0xff50586C),
+          ),
+          Container(
+            margin: const EdgeInsets.only(top: 20),
+            child: ListView.builder(
+              itemCount: resultsList.length,
+              itemBuilder: (ctx, index) => UserCardOnResult(
+                userName: resultsList[index].name,
+                datetime: resultsList[index].dateTime,
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              height: 200,
+              width: 200,
+              margin: const EdgeInsets.all(50),
+              child: MaterialButton(
+                shape: const CircleBorder(),
+                color: const Color(0xff50586C),
+                onPressed: isBuzzerActive
+                    ? () {
+                        player.play(
+                          AssetSource("buzzer.mp3"),
+                        );
+                        setState(() {
+                          isBuzzerActive = false;
+                        });
+                        passBuzzerData(widget.roomCode, widget.username,
+                            DateTime.now().toString());
+                      }
+                    : () {},
+                child: const Text(
+                  "BUZZER",
+                  style: TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xffD7D7D7),
+                  ),
                 ),
               ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }

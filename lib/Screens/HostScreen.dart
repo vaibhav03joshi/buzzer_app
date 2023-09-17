@@ -22,7 +22,6 @@ class _HostScreenState extends State<HostScreen> with WidgetsBindingObserver {
     tempResultList = await returnResultUsers(widget.roomCode);
     setState(() {
       resultsList = tempResultList;
-      print(resultsList);
     });
   }
 
@@ -70,7 +69,7 @@ class _HostScreenState extends State<HostScreen> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Room Code'),
+        title: const Text('Room Code'),
       ),
       body: Stack(
         children: [
@@ -90,12 +89,12 @@ class _HostScreenState extends State<HostScreen> with WidgetsBindingObserver {
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
-              margin: EdgeInsets.all(10.0),
+              margin: const EdgeInsets.all(10.0),
               width: 70.0,
               height: 70.0,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(100.0),
-                color: Color(0xff50586C),
+                color: const Color(0xff50586C),
               ),
               child: IconButton(
                 onPressed: () {

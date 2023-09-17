@@ -11,6 +11,7 @@ class UserCard extends StatelessWidget {
       height: 75.0,
       width: double.infinity,
       child: Card(
+        color: const Color(0xffc6d3ef),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(30.0),
@@ -33,7 +34,7 @@ class UserCard extends StatelessWidget {
             ),
             Text(
               userName,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Color(0xff50586C),
                 fontSize: 20.0,
                 fontWeight: FontWeight.w400,

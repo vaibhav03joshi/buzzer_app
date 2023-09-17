@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import '../Data/Functions.dart';
 
 class WaitingScreen extends StatefulWidget {
-  WaitingScreen(
+  const WaitingScreen(
       {required this.showStartButton,
       required this.roomCode,
       this.username,
@@ -26,7 +26,7 @@ class _WaitingScreenState extends State<WaitingScreen>
   bool canDelete = true;
   List<String> waitingUsers = [];
 
-  void WaitingUserListCall() async {
+  void waitingUserListCall() async {
     List<String> list = await returnWaitingUsers(widget.roomCode);
     setState(() {
       waitingUsers = list;
@@ -75,13 +75,13 @@ class _WaitingScreenState extends State<WaitingScreen>
         .child("/Room/${widget.roomCode}/Users")
         .onChildAdded
         .listen((event) {
-      WaitingUserListCall();
+      waitingUserListCall();
     });
     sub2 = databaseReference
         .child("/Room/${widget.roomCode}/Users")
         .onChildRemoved
         .listen((event) {
-      WaitingUserListCall();
+      waitingUserListCall();
     });
     if (widget.username != null) {
       sub3 = databaseReference
@@ -126,12 +126,12 @@ class _WaitingScreenState extends State<WaitingScreen>
               ? Align(
                   alignment: Alignment.bottomCenter,
                   child: Container(
-                    margin: EdgeInsets.all(10.0),
+                    margin: const EdgeInsets.all(10.0),
                     width: 70.0,
                     height: 70.0,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(100.0),
-                      color: Color(0xff50586C),
+                      color: const Color(0xff50586C),
                     ),
                     child: IconButton(
                       onPressed: () {

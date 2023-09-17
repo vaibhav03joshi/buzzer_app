@@ -6,7 +6,7 @@ import 'dart:math';
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
-  String GenerateRoomCode() {
+  String generateRoomCode() {
     Random random = Random();
     int sixDigitNumber = random.nextInt(900000) + 100000;
     return sixDigitNumber.toString();
@@ -32,10 +32,22 @@ class HomeScreen extends StatelessWidget {
                   ),
                   height: 200,
                   width: 200,
+                  child: const Center(
+                    child: Text(
+                      "Buzzer",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Color(0xffDCE2F0),
+                        fontSize: 50,
+                        fontFamily: 'MyFont',
+                        fontStyle: FontStyle.italic,
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),
-            Container(
+            SizedBox(
               width: 150,
               child: Column(
                 children: [
@@ -45,7 +57,7 @@ class HomeScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(20.0),
                     ),
                     onPressed: () {
-                      String roomCodeGenerated = GenerateRoomCode();
+                      String roomCodeGenerated = generateRoomCode();
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (ctx) => WaitingScreen(

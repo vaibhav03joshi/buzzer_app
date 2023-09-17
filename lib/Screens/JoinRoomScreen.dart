@@ -13,7 +13,7 @@ class JoinRoomScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Join Room'),
+        title: const Text('Join Room'),
       ),
       body: Center(
         child: Column(
@@ -21,13 +21,13 @@ class JoinRoomScreen extends StatelessWidget {
           children: [
             Container(
               decoration: BoxDecoration(
-                color: Color(0xff50586C),
+                color: const Color(0xff50586C),
                 borderRadius: BorderRadius.circular(30.0),
               ),
               height: 50,
               width: 200,
               child: TextField(
-                cursorColor: Color(0xffDCE2F0),
+                cursorColor: const Color(0xffDCE2F0),
                 onChanged: (value) {
                   userName = value;
                 },
@@ -55,13 +55,13 @@ class JoinRoomScreen extends StatelessWidget {
             ),
             Container(
               decoration: BoxDecoration(
-                color: Color(0xff50586C),
+                color: const Color(0xff50586C),
                 borderRadius: BorderRadius.circular(30.0),
               ),
               height: 50,
               width: 200,
               child: TextField(
-                cursorColor: Color(0xffDCE2F0),
+                cursorColor: const Color(0xffDCE2F0),
                 onChanged: (value) {
                   roomCode = value;
                 },
@@ -109,6 +109,12 @@ class JoinRoomScreen extends StatelessWidget {
                   String warningMessage = joinroom.userIndex == -1
                       ? "Room Does not exist"
                       : "Room is already started";
+                  ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(warningMessage),
+                    ),
+                  );
                 }
               },
               child: const Row(

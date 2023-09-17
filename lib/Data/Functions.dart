@@ -80,6 +80,7 @@ Future<List<Results>> returnResultUsers(String roomCode) async {
       Results results = Results(key, dateTime);
       resultData.add(results);
     });
+    resultData.sort((a, b) => a.dateTime.compareTo(b.dateTime));
   }
   return resultData;
 }
