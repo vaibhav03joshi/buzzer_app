@@ -49,7 +49,7 @@ class _ClientPageState extends State<ClientPage> {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(100),
             child: MaterialButton(
-              color: Colors.red,
+              color: Color(0xff50586C),
               onPressed: isBuzzerActive
                   ? () {
                       player.play(
