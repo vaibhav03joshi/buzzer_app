@@ -113,6 +113,7 @@ class JoinRoomScreen extends StatelessWidget {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text(warningMessage),
+                      backgroundColor: const Color(0xff50586C),
                     ),
                   );
                 }

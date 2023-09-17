@@ -69,7 +69,7 @@ class _HostScreenState extends State<HostScreen> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Room Code'),
+        title: Text(widget.roomCode),
       ),
       body: Stack(
         children: [
