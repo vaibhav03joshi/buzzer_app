@@ -21,6 +21,7 @@ class ClientPage extends StatefulWidget {
 class _ClientPageState extends State<ClientPage> {
   final player = AudioPlayer();
   bool isBuzzerActive = true;
+  DateTime initialDateTime = DateTime.now();
   List<Results> resultsList = [];
   var sub1, sub2;
 
@@ -41,6 +42,7 @@ class _ClientPageState extends State<ClientPage> {
         .listen((event) {
       setState(() {
         isBuzzerActive = true;
+        initialDateTime = DateTime.now();
       });
     });
     sub1 = databaseReference
@@ -100,8 +102,10 @@ class _ClientPageState extends State<ClientPage> {
                         setState(() {
                           isBuzzerActive = false;
                         });
+                        Duration timeDifference =
+                            DateTime.now().difference(initialDateTime);
                         passBuzzerData(widget.roomCode, widget.username,
-                            DateTime.now().toString());
+                            "${timeDifference.inSeconds}.${timeDifference.inMilliseconds % 1000}");
                       }
                     : () {},
                 child: const Text(

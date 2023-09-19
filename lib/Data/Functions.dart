@@ -67,6 +67,13 @@ void passBuzzerData(String roomData, String username, String dateTime) {
   });
 }
 
+Duration parseFormattedTime(String formattedTime) {
+  final parts = formattedTime.split(':');
+  final seconds = int.parse(parts[0]);
+  final milliseconds = int.parse(parts[1]);
+  return Duration(seconds: seconds, milliseconds: milliseconds);
+}
+
 Future<List<Results>> returnResultUsers(String roomCode) async {
   List<Results> resultData = [];
   final snapshot =
@@ -75,8 +82,10 @@ Future<List<Results>> returnResultUsers(String roomCode) async {
     Map<String, dynamic> data =
         jsonDecode(jsonEncode(snapshot.value)) as Map<String, dynamic>;
     data.forEach((key, value) {
-      String dateTimeData = value;
-      DateTime dateTime = DateTime.parse(dateTimeData);
+      Duration dateTime = Duration(
+        seconds: int.parse(value.toString().split(".").first),
+        milliseconds: int.parse(value.toString().split(".").last),
+      );
       Results results = Results(key, dateTime);
       resultData.add(results);
     });

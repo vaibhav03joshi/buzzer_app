@@ -1,7 +1,7 @@
 class Results {
   Results(this.name, this.dateTime);
   String name;
-  DateTime dateTime;
+  Duration dateTime;
 }
 
 class JoinRoom {

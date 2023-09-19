@@ -5,7 +5,7 @@ class UserCardOnResult extends StatelessWidget {
       {required this.userName, required this.datetime, super.key});
 
   final String userName;
-  final DateTime datetime;
+  final Duration datetime;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -54,7 +54,7 @@ class UserCardOnResult extends StatelessWidget {
                   right: 15.0,
                 ),
                 child: Text(
-                  '${datetime.minute}:${datetime.second}:${datetime.microsecond}',
+                  "${datetime.inSeconds}:${datetime.inMilliseconds % 1000}",
                   style: const TextStyle(
                     color: Color(0xff50586C),
                     fontSize: 20,
