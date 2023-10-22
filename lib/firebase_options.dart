@@ -44,8 +44,6 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyB_MyX5_snM_103FEY82N4KGGBswjAXQhU',
-    appId: '1:803726674093:web:fff3dcf60965be66fa5e24',
     messagingSenderId: '803726674093',
     projectId: 'buzzerapp-abd6d',
     authDomain: 'buzzerapp-abd6d.firebaseapp.com',
@@ -54,16 +52,12 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDOiwab-f4DmKm1jZ4dYtTlUzs04vPGD_0',
-    appId: '1:803726674093:android:a26dc10510155e7efa5e24',
     messagingSenderId: '803726674093',
     projectId: 'buzzerapp-abd6d',
     storageBucket: 'buzzerapp-abd6d.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDFfG08i4KIJ7J2ydXGrcvx5TrBjJwBCTY',
-    appId: '1:803726674093:ios:678e76b691ad4058fa5e24',
     messagingSenderId: '803726674093',
     projectId: 'buzzerapp-abd6d',
     storageBucket: 'buzzerapp-abd6d.appspot.com',
@@ -71,8 +65,6 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyDFfG08i4KIJ7J2ydXGrcvx5TrBjJwBCTY',
-    appId: '1:803726674093:ios:a5ff53b2270fe2bafa5e24',
     messagingSenderId: '803726674093',
     projectId: 'buzzerapp-abd6d',
     storageBucket: 'buzzerapp-abd6d.appspot.com',
